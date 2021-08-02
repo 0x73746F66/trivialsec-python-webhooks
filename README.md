@@ -1,6 +1,6 @@
-# <img src="/assets/icon-512x512.png"  width="52" height="52"> TrivialSec
+# <img src=".repo/assets/icon-512x512.png"  width="52" height="52"> TrivialSec
 
-[![pipeline status](http://gitlab.langton.cloud/chris/trivialsec/badges/master/pipeline.svg)](http://gitlab.langton.cloud/chris/trivialsec/commits/master)
+[![pipeline status](https://gitlab.com/trivialsec/python-webhooks/badges/main/pipeline.svg)](https://gitlab.com/trivialsec/python-webhooks/commits/main)
 
 Current tech stack
 
@@ -79,7 +79,7 @@ If you have already run you can just run the usual `docker-compose -f docker-com
 
 To update the database at any time run `./scripts/cve-update.sh`.
 
-You can add a user for the cve-search website using `docker-compose -f docker-compose-cve.yaml exec search bash -c 'python /srv/app/sbin/db_mgmt_admin.py -a chris'`
+You can add a user for the cve-search website using `docker-compose -f docker-compose-cve.yaml exec search bash -c 'python /srv/app/sbin/db_mgmt_admin.py -a admin'`
 
 ## Remote and Local IDE support
 
