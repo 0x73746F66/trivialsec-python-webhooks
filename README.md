@@ -9,35 +9,24 @@ Current tech stack
 - sysdig
 - seccomp
 - gnumake / bash
-- python 3.8
+- python 3.9
 - flask
 - jinja2 components (server-side rendering)
 - node.js v14
 - Socket.io
-- ejs.co templates
+- handlebars templates
 - JavaScript (vanilla prototypal inheritance, i.e. no jQuery or libraries using classical inheritence)
 - Redis
-- MongoDB
+- Elasticsearch
 - MySQL v8
-- M/Monit
 
 Operations / Business Technology
 
-- Amazon AWS
-- Ditial Ocean
-- JumpCloud
-- Mailgun
-- reCAPTCHAv3
-- Stripe
-- Webflow
-- Nextcloud
 - Gitlab
-- Phonito
 
 Desirable (future state)
 
 - CloudFlare
-- Elasticsearch
 - React native for ios & android
 - go (graph API for apps)
 
@@ -47,39 +36,43 @@ Desirable (future state)
 
 2. register [recaptcha v3](https://www.google.com/recaptcha/admin/create)
 
+3. GCP API keys for [SafeBrowsing API](https://console.cloud.google.com/apis/api/safebrowsing.googleapis.com/credentials)
+
+4. [JumpCloud](https://console.jumpcloud.com)
+
+- [Sendgrid](https://app.sendgrid.com)
+
+6. [Stripe](https://dashboard.stripe.com)
+
+7. [Gitlab](https://gitlab.com/trivialsec)
+
+8. [Linode](https://cloud.linode.com/)
+
 ## Configure
 
-1. Create a `.env` file with the following;
+1. Create a `.env` file in each project, with the following;
 
 ```
 cp .env-example .env
-cp workers/docker/config-sample.yaml workers/docker/config.yaml
-cp web/docker/config-sample.yaml web/docker/config.yaml
 ```
 
 Replace defaults with your own values. Make sure you are setup to read these automatically or amnually run `source .env` each time.
 
 For debugging make sure you have `web/docker/.flaskenv` with `FLASK_DEBUG` and `FLASK_ENV` set, and rebuild.
 
-2. Make a config file named `config.yaml` in `./web/src` with the following values;
+2. Make a config file of your own. First ensure your own `APP_NAME` value is set, then update the `app-config-development.yaml` with the following values;
 
 The recaptcha `secret_key` is sensitive and is not shared in this project as it impacts production, you should create one for yourself. Also the `app session secret` value can be anything random that you like for local development, it is used for session storage so production should be rotated with any significant change to session code.
+
+And then run `bin/update-app-configs`
 
 3. Become familiar with the Makefile to run the project components, make sure you run `db-create` and verify schema using;
 
 ```bash
-docker-compose exec mysql bash -c "mysql -uroot -p -D${MYSQL_DATABASE} -e 'SHOW TABLES;'"
+docker-compose exec mysql-main bash -c "mysql -uroot -p -Dtrivialsec -e 'SHOW TABLES;'"
 ```
 
-## TODO: CVE database
-
-Simply `docker-compose -f docker-compose-cve.yaml build` then run `./scripts/cve-init.sh` if this is the first time. The first run will take a very long time to populate the database.
-
-If you have already run you can just run the usual `docker-compose -f docker-compose-cve.yaml up -d --no-build`.
-
-To update the database at any time run `./scripts/cve-update.sh`.
-
-You can add a user for the cve-search website using `docker-compose -f docker-compose-cve.yaml exec search bash -c 'python /srv/app/sbin/db_mgmt_admin.py -a admin'`
+## TODO: elasticsearch
 
 ## Remote and Local IDE support
 
