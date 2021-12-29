@@ -26,8 +26,8 @@ prep:
 wheel: prep
 	rm -rf common/build common/dist common/trivialsec_common.egg-info web/docker/build workers/docker/build web/docker/packages workers/docker/packages
 	pip uninstall -y trivialsec-common || true
-	cd common; python3.8 setup.py check && pip --no-cache-dir wheel --wheel-dir=build/wheel -r requirements.txt && \
-		python3.8 setup.py bdist_wheel --universal
+	cd common; python3 setup.py check && pip --no-cache-dir wheel --wheel-dir=build/wheel -r requirements.txt && \
+		python3 setup.py bdist_wheel --universal
 	pip install --no-cache-dir --find-links=common/build/wheel --no-index common/dist/trivialsec_common-*-py2.py3-none-any.whl
 	cp -r common/build/wheel web/docker/build
 	cp common/dist/trivialsec_common-*.whl web/docker/build/
@@ -39,9 +39,9 @@ watch:
 
 install-dev:
 	pip install -q -U pip setuptools pylint wheel awscli
-	pip install -q -U --no-cache-dir --isolated -r ./common/requirements.txt
-	pip install -q -U --no-cache-dir --isolated -r ./web/docker/requirements.txt
-	pip install -q -U --no-cache-dir --isolated -r ./workers/docker/requirements.txt
+	pip install -q -U -r ./common/requirements.txt
+	pip install -q -U -r ./web/docker/requirements.txt
+	pip install -q -U -r ./workers/docker/requirements.txt
 
 lint:
 	cd workers/src; pylint --jobs=0 --persistent=y --errors-only **/*.py
